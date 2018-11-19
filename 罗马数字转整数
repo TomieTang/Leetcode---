@@ -1,0 +1,76 @@
+方法一：if连续往下，把所有情况考虑到，代码量多一点，但执行速度快:
+
+class Solution {
+    public int romanToInt(String s) {
+    int sum=0;   
+    for(int i=0;i<=s.length()-1;i++){
+        if(s.charAt(i)=='M')sum+=1000;
+        if(s.charAt(i)=='D')sum+=500;       
+        if(s.charAt(i)=='C'){
+            if(i<s.length()-1){
+                if(s.charAt(i+1)=='M'||s.charAt(i+1)=='D'){
+                    sum-=100;
+                }else{
+                    sum+=100;
+                }       
+            }else{
+                sum+=100;
+            }
+        }
+        if(s.charAt(i)=='L')sum+=50;  
+        if(s.charAt(i)=='X'){
+            if(i<s.length()-1){
+                if(s.charAt(i+1)=='L'||s.charAt(i+1)=='C') {
+                    sum-=10;
+                }
+                else{
+                    sum+=10;
+                }
+            }else{
+                sum+=10;
+            }
+        }
+        if(s.charAt(i)=='V')sum+=5;     
+        if(s.charAt(i)=='I'){
+            if(i<s.length()-1){
+                if(s.charAt(i+1)=='V'||s.charAt(i+1)=='X') {
+                    sum-=1;
+                }
+                else {
+                    sum+=1;
+                }
+            }else{
+                sum+=1;
+            }
+                
+        }
+    }
+    return sum; 
+    }
+}
+
+方法二：HashMap映射，代码量少，但执行速度慢：
+class Solution {
+    public int romanToInt(String s) {
+
+        HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+        map.put('I', 1);
+        map.put('V', 5);
+        map.put('X', 10);
+        map.put('L', 50);
+        map.put('C', 100);
+        map.put('D', 500);
+        map.put('M', 1000);
+        int num = map.get(s.charAt(s.length() - 1));
+        for (int i = s.length() - 2; i >= 0; i--) {
+            if (map.get(s.charAt(i)) >= map.get(s.charAt(i + 1))){
+                num += map.get(s.charAt(i));
+                }
+            else{
+                num -= map.get(s.charAt(i));
+                }
+        }
+        return num;
+        }
+    }
+
