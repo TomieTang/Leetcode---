@@ -1,0 +1,27 @@
+class Solution {
+   
+    public boolean isValid(String s) {
+        HashMap<Character,Character> map=new HashMap<Character,Character>();
+        map.put(')','(');
+        map.put(']','[');
+        map.put('}','{');
+        //初始化一个栈
+        Stack<Character> stack = new Stack<Character>();
+        for(int i=0;i<s.length();i++){
+            char temp=s.charAt(i);
+            //如果当前是一个闭括号，继续，否则将开括号压入栈中
+            if(map.containsKey(temp)){
+                //获取栈顶的元素，如果栈为空，设置一个虚拟值#，否则返回栈顶的值并移除顶部对象
+                char t=stack.empty()?'#' : stack.pop();
+                //如果栈顶的元素和当前不相符，返回false
+                if(t!=map.get(temp)){
+                    return false;
+                }
+            }else{
+                stack.push(temp);
+            }
+        }
+        //判断栈是否为空
+        return stack.isEmpty();
+    }
+}
